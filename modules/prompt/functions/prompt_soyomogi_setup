@@ -1,0 +1,78 @@
+function prompt_soyomogi_precmd {
+  # Get Git repository information.
+  if (( $+functions[git-info] )); then
+    git-info
+  fi
+
+  # Get Ruby information.
+  if (( $+functions[ruby-info] )); then
+    ruby-info
+  fi
+}
+
+function prompt_soyomogi_setup {
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+  prompt_opts=(cr percent sp subst)
+
+  # Load required functions.
+  autoload -Uz add-zsh-hook
+
+  # Add hook to set up prompt parameters before each command.
+  add-zsh-hook precmd prompt_soyomogi_precmd
+
+  # Tell prezto we can manage this prompt
+  zstyle ':prezto:module:prompt' managed 'yes'
+
+  # color palette
+  palette=(
+    "%F{cyan}"
+    "%F{yellow}"
+    "%F{magenta}"
+    "%F{red}"
+    "%F{green}"
+    "%F{gray}"
+    "%F{blue}"
+  )
+
+  # define host color
+  host_color=${palette[6]}
+  if [[ $(hostname) =~ ^.*01.*$ ]]; then
+    host_color=${palette[3]}
+  fi
+  if [[ $(hostname) =~ ^.*02.*$ ]]; then
+    host_color=${palette[2]}
+  fi
+  if [[ $(hostname) =~ ^.*03.*$ ]]; then
+    host_color=${palette[7]}
+  fi
+  if [[ $(hostname) =~ ^.*prod.*$ ]]; then
+    host_color=${palette[4]}
+  fi
+  if [[ $(hostname) =~ ^.*cyan.*$ ]]; then
+    host_color=${palette[1]}
+  fi
+  if [[ $(hostname) =~ ^.*local.*$ ]]; then
+    host_color=${palette[5]}
+  fi
+
+  # Set git-info parameters.
+  zstyle ':prezto:module:git:info' verbose 'yes'
+  zstyle ':prezto:module:git:info:branch' format "${palette[3]}%b%f"
+  zstyle ':prezto:module:git:info:added' format "${palette[2]}●%f"
+  zstyle ':prezto:module:git:info:deleted' format "${palette[4]}●%f"
+  zstyle ':prezto:module:git:info:modified' format "${palette[5]}●%f"
+  zstyle ':prezto:module:git:info:untracked' format "${palette[6]}●%f"
+  zstyle ':prezto:module:git:info:keys' format 'prompt' '[%b%d%a%m%u${palette[3]}]%f'
+
+  # Set ruby-info parameters.
+  zstyle ':prezto:module:ruby:info:version' format '[%v]'
+
+  # Define prompts.
+  # PROMPT="${palette[3]}%n%f@${palette[2]}%m%f ${palette[5]}%~%f "'${git_info:+${(e)git_info[prompt]}}'"$ "
+  PROMPT="[%B${palette[7]}%n%f%b@%B${host_color}%m%f%b:%B${palette[2]}%~%f%b]%B${palette[3]}"'${git_info:+${(e)git_info[prompt]}}'"%f%b$ "
+  RPROMPT='%F{blue}${ruby_info[version]}'
+}
+
+prompt_soyomogi_setup "$@"
+# vim: ft=zsh

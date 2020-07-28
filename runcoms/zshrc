@@ -15,7 +15,7 @@ fi
 # skwptheme
 autoload -Uz promptinit
 promptinit
-prompt skwp
+prompt soyomogi
 
 # screen デタッチした場合にもssh agent forwardingを有効にする
 AUTH_SOCK="$HOME/.ssh/.ssh-auth-sock"
