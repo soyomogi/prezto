@@ -275,5 +275,5 @@ if ! zstyle -t ':prezto:module:git:alias' skip 'yes'; then
   alias gwX='git rm -rf'
 
   # my alias
-  alias gfre='!git fetch origin && git remote prune origin'
+  alias gfre='git fetch origin && git remote prune origin'
 fi
