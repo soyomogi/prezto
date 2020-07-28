@@ -273,4 +273,7 @@ if ! zstyle -t ':prezto:module:git:alias' skip 'yes'; then
   alias gwC='git clean -f'
   alias gwx='git rm -r'
   alias gwX='git rm -rf'
+
+  # my alias
+  alias gre='!git fetch origin && git remote prune origin'
 fi
