@@ -12,6 +12,9 @@ fi
 
 # Customize to your needs...
 
+# screen
+export SCREENDIR=$HOME/.screen
+
 # skwptheme
 autoload -Uz promptinit
 promptinit
